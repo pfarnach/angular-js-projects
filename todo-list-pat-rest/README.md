@@ -13,3 +13,7 @@ pip install bottle
 in the same directory as server.py
 
 * Open up "localhost:8081" in your browser of choice
+
+
+##### Screenshot
+![alt tag](https://raw.githubusercontent.com/pfarnach/angular-js-projects/master/todo-list-pat-rest/screenshot-edit-entry.png)
