@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todo">
+<head>
+	<meta charset="UTF-8">
+	<title>To-do List</title>
+
+	<link rel="stylesheet" href="http://bootswatch.com/spacelab/bootstrap.min.css">
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class="container">
+
+	<div class="col-sm-8" ng-controller="MainCtrl">
+
+		<!-- Pane tabs -->
+		<ul class="nav nav-tabs">
+		  <li role="presentation" ng-click="selectedTab=1" ng-class="{ active:selectedTab===1 }"><a href="#">To-do List</a></li>
+		  <li role="presentation" ng-click="selectedTab=2" ng-class="{ active:selectedTab===2 }"><a href="#">Inline Editor</a></li>
+		</ul>
+
+		<!-- Todo list pane -->
+		<div class="todo-list" ng-show="selectedTab===1" ng-controller="TodoList">
+			<h1>To-do List</h1>
+			<h1>{{ ajaxresult }}</h1>
+			<a href="#" ng-click="enableAddEvent()" class="btn btn-primary btn-lrg add-entry">+</a>
+			<input type="search" ng-model="query" placeholder="Search for a task..." />
+
+			<!-- main table containing list -->
+			<table class="table table-hover">
+
+				<!-- table header -->
+				<thead>
+			    <tr>
+			      <th ng-click="selectOrder('id')" ng-class="{ 'ascending':selectedHeader=='id' && ascending, 'descending':selectedHeader=='id' && !ascending}">#</th>
+			      <th ng-click="selectOrder('name')" ng-class="{ 'ascending':selectedHeader=='name' && ascending, 'descending':selectedHeader=='name' && !ascending}">Task</th>
+			      <th ng-click="selectOrder('due_date')" ng-class="{ 'ascending':selectedHeader=='due_date' && ascending, 'descending':selectedHeader=='due_date' && !ascending}">Due</th>
+			      <th class="done-header" ng-click="selectOrder('done')" ng-class="{ 'ascending':selectedHeader=='done' && ascending, 'descending':selectedHeader=='done' && !ascending}">Done</th>
+			      <th style="padding-left:20px">Priority</th>
+						<th>Edit/Delete</th>
+			    </tr>
+			  </thead>
+
+			  <!-- table body where entries are displayed -->
+			  <tbody>
+			    <tr ng-repeat="entry in todolist | filter :{name:query} | orderBy: orderPref">
+
+			      <td>{{ entry.id }}</td>
+			      <td>{{ entry.name }}</td>
+			      <td>{{ entry.due_date }}</td>
+
+			      <td class="checkboxes"><a class="btn btn-default btn-sm" ng-click="updateDone(entry)"><i class="glyphicon glyphicon-ok" ng-class="{ done:entry.done }"></i></a></td>
+
+			      <td>
+			      	<a ng-click="priorityUp(entry)" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-chevron-up"></i></a>
+			      	<a ng-click="priorityDown(entry)"class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-chevron-down"></i></a>
+			      </td>
+
+			      <td>
+							<a ng-click="enableEditEvent(entry)" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i></a>
+			      	<a ng-click="removeEntry(entry);reassignID();"class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i></a>
+			      </td>
+
+			    </tr>
+			  </tbody>
+			</table>
+			
+			<!-- add form -->
+			<form ng-show="enableAdd" ng-submit="addEvent(newEntry)">
+				<input type="text" ng-model="newEntry.name" placeholder="Enter task" autofocus>
+				<input type="text" ng-model="newEntry.due_date" placeholder="Enter due date">
+				<button type="submit" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
+			</form>
+
+			<!-- edit form -->
+			<form ng-show="enableEdit" ng-submit="updateEntry(editedEntry)">
+				<input type="text" ng-model="editedEntry.name">
+				<input type="text" ng-model="editedEntry.due_date">
+				<button type="submit" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-ok"></i></button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="cancelEditing()"><i class="glyphicon glyphicon-remove"></i></button>
+			</form>
+		</div> <!-- /todo-list pane -->
+
+		<!-- Inline editor pane -->
+		<div ng-show="selectedTab===2" ng-controller="InlineEditorController" ng-click="inlineEdit = false" class="inline-editor">
+			<div ng-click="$event.stopPropagation(); inlineEdit = !inlineEdit" class="editable-text-wrapper">
+				<i class="glyphicon glyphicon-pencil"></i><span> </span>
+				<form class="inline-edit-form" ng-submit="toggleInlineEdit()">
+					<input ng-show="inlineEdit" ng-click="$event.stopPropagation()" type="text" ng-model="inlineText" autofocus onfocus="this.select()"/>
+				</form>
+				<h1 ng-hide="inlineEdit" class="editable-text">{{ inlineText }}</h1>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

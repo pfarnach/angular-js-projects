@@ -1,0 +1,88 @@
+/* This is some of the ugliest CSS you'll ever see, please don't judge me -- I was more concerned with practicing Angular here. */
+
+h1 {
+	display: inline-block;
+}
+
+input[type='search'] {
+	float: right;
+	margin-top: 25px;
+}
+
+.checkboxes {
+	text-align: center;
+}
+
+th {
+	cursor: pointer;
+}
+
+.done-header {
+	text-align: center;
+}
+
+.add-entry {
+	width: 4.5rem;
+	height: 4.5rem;
+	font-size: 3rem;
+	line-height: 3.5rem;
+	padding-top: 0;
+	margin-left: 10px;
+	box-sizing: border-box;
+}
+
+.container {
+	margin-top: 30px;
+}
+
+li {
+	list-style-type: none;
+}
+
+i {
+	color: white;
+}
+
+.inline-editor i {
+	color: black;
+}
+
+.glyphicon-ok {
+	font-weight: bold;
+}
+
+.done {
+	color: rgba(0, 255, 0, 1);
+}
+
+ul li .active {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.editable-text-wrapper {
+	width: 100%;
+	padding: 10rem;
+	margin: 0 auto;
+}
+
+.inline-edit-form {
+	display: inline-block;
+}
+
+input[ng-model="inlineText"] {
+	font-size: 2em;
+	margin: 0.67em 0;
+	line-height: 1.1;
+}
+
+.ascending {
+	background-color: rgba(0, 0, 0, 0.1);
+	color: #426A95; /*blue*/
+}
+
+.descending {
+	background-color: rgba(0, 0, 0, 0.1);
+	color: #C30200; /*red*/
+}
+
+
