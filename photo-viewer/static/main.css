@@ -1,0 +1,144 @@
+/* MAIN PAGE */
+.navbar-right li
+{
+    font-size: 1.8rem;
+}
+
+.navbar-brand
+{
+    font-size: 2.5rem;
+    padding-bottom: 34px;
+}
+
+/* ALBUMS PAGE */
+#add-album-btn
+{
+    cursor: pointer;
+}
+
+.success-text
+{
+    text-align: center;
+}
+
+/* PHOTOS PAGE */
+.flare
+{
+    color: #df691a;
+}
+
+#add-photo-btn
+{
+    cursor: pointer;
+}
+
+#add-photo-form
+{
+    padding-bottom: 8rem;
+}
+
+#photo-desc
+{
+    resize: none;
+}
+
+#photo-password
+{
+    width: 25rem;
+    height: 39px;
+    padding: 8px 16px;
+}
+
+#photo-displayer
+{
+    margin-top: 25px;
+}
+
+/* photo panel */
+.page-title
+{
+    font-size: 4rem;
+    font-weight: bold;
+}
+.panel-title
+{
+    font-size: 2.2rem;
+}
+
+.photo
+{
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.photo-container
+{
+    display: inline-block;
+    max-height: 100%;
+}
+
+/* photo hover menu */
+.photo-wrapper
+{
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-menu-wrapper
+{
+    position: absolute;
+    bottom: -40px;
+    display: block;
+    width: 100%;
+    height: 50px;
+    transition: bottom .5s ease, opacity .5s ease;
+    opacity: 0;
+    background-color: rgba(0,0,0,.7);
+}
+
+.photo-wrapper:hover > .photo-menu-wrapper,
+.photo-wrapper:focus > .photo-menu-wrapper
+{
+    bottom: 0;
+    opacity: 1.0;
+}
+
+.photo-menu
+{
+    padding-top: 8px;
+    text-align: center;
+}
+
+.photo-menu a
+{
+    font-size: 2.4rem;
+    margin: 10px;
+    cursor: default;
+    color: white;
+}
+
+.photo-menu a:hover,
+.photo-menu a:focus
+{
+    color: #df691a;
+}
+
+.photo-menu .liked:active > .fa-thumbs-o-up
+{
+	color: #2b3e50;
+}
+
+/* photo caption */
+.photo-caption
+{
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+/* search bar */
+input[ng-model='query']
+{
+    width: 20rem;
+}

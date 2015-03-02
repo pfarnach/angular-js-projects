@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+{% block body %}
+
+{% if created %}
+<div class="row">
+	<div class="bs-component">
+	  <div class="alert alert-dismissible alert-success col-lg-6">
+	    <button type="button" class="close" data-dismiss="alert">×</button>
+	    <h3 class="success-text"><i class="fa fa-check-circle-o"></i> Album successfully created!</h3>
+	  </div>
+	</div>
+</div>
+
+{% endif %}
+
+<h1 class="album-page-title">Photo albums</h1>
+<div class="create-album">
+	<h3><a id="add-album-btn"><i class="fa fa-plus-circle"></i> Create an album</a></h3>
+	<form id="add-album-form" action='/add_album' method='post' hidden>
+		<div class="form-group">
+			<div class="row">
+	      <div class="col-lg-6">
+	      	<select name="userSelect" id="select-album-owner" required>
+	      			<option selected style="display:none;" value="default">Select album owner</option>
+	      		{% for user in users %}
+	      			<option value="{{ user[0] }}">{{ user[2] + " " + user[3] }} ({{ user[1] }})</option>
+	      		{% endfor %}
+	      	</select>
+	      </div>
+      </div><!-- /row -->
+    </div><!-- /form-group -->
+		<div class="form-group">
+			<div class="row">
+	      <div class="col-lg-6">
+	        <input type="text" class="form-control" name="albumName" placeholder="Enter an album name">
+	      </div>
+      </div><!-- /row -->
+    </div><!-- /form-group -->
+    <div class="form-group">
+    	<div class="row">
+	      <div class="col-lg-6">
+	        <textarea class="form-control" name="albumDesc" id="albumDesc" placeholder="Enter a description" rows=5></textarea>
+	      </div>
+      </div><!-- /row -->
+		</div><!-- /form-group -->
+    <div class="form-group">
+    	<div class="col-lg-6">
+	    	<button type="submit" class="btn btn-primary" id="submit-album-btn" disabled>Submit</button>
+	      <button type="reset" class="btn btn-default" id="close-album-btn">Cancel</button>
+    	</div><!-- /row -->
+  	</div><!-- /form-group -->
+	</form><!-- /form -->
+</div><br>
+
+{% for album_info in albums %}
+
+<div class="row">
+	<div class="col-md-8 col-sm-12">
+		<h3><a href="/albums/view?id={{ album_info [6] }}&name={{ album_info[0] }}">{{ album_info[0] }}</a></h3>
+		<p>Description: {{ album_info[1] }}</p>
+		<p>By {{ album_info[3] }} {{ album_info[4] }} / {{ album_info[2] }}</p>
+		<a href="mailto:{{ album_info[5] }}" target="_blank">{{ album_info[5] }}</a>
+		<hr>
+	</div>
+</div>
+
+{% endfor %}
+{% endblock body %}

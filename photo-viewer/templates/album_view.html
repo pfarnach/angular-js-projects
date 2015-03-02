@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+{% block body %}
+
+{% if exists %}
+
+<div ng-controller="PhotoDisplayController">
+	<h1 class="page-title">{{ album_name }}</h1>
+	<h3>By {{ user_info[2] + " " + user_info[3] }} <span class="flare">/</span> {{ user_info[1] }}</h3>
+	<!-- search box -->
+	<input ng-show="photos" class="pull-right" type="search" ng-model="query" placeholder="Search by photo name..." />
+	<h3><a id="add-photo-btn"><i class="fa fa-plus-circle"></i> Add a photo</a></h3><br>
+
+	<div ng-controller="UploadController">
+
+		<!-- form to add new photo -->
+		<form id="add-photo-form" ng-submit="uploadFile()" hidden>
+			<div class="form-group">
+	    	<div class="row">
+		      <div class="col-lg-6">
+		        <label for="photoUpload" class="col-lg-6 control-label">Upload image (.png, .gif or .jpg): </label>
+	      		<input type="file" name="photoUpload" ng-file-select="onFileSelect($files)" required>
+	      		{# <div class="progress" style="margin-top: 20px;">
+              <div class="progress-bar" progress-bar="uploadProgress" role="progressbar">
+                <span ng-bind="uploadProgress"></span>
+                <span>%</span>
+              </div>
+            </div> #}
+		      </div>
+	      </div><!-- /row -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<div class="row">
+		      <div class="col-lg-6">
+		      	<input id="photo-password" ng-model="photo.password" type="password" placeholder="Password for {{ user_info[1] }}" required>
+		      </div>
+	      </div><!-- /row -->
+	    </div><!-- /form-group -->
+			<div class="form-group">
+				<div class="row">
+		      <div class="col-lg-6">
+		        <input type="text" ng-model="photo.name" class="form-control" name="photoName" placeholder="Enter an photo name" required>
+		      </div>
+	      </div><!-- /row -->
+	    </div><!-- /form-group -->
+	    <div class="form-group">
+	    	<div class="row">
+		      <div class="col-lg-6">
+		        <textarea class="form-control" ng-model="photo.desc" name="photoDesc" id="photo-desc" placeholder="Enter a description" rows=5 required></textarea>
+		      </div>
+	      </div><!-- /row -->
+			</div><!-- /form-group -->
+	    <div class="form-group">
+	    	<div class="col-lg-6">
+		    	<button type="submit" class="btn btn-primary" id="submit-photo-btn">Submit</button>
+		      <button type="reset" class="btn btn-default" id="close-photo-btn">Cancel</button>
+	    	</div><!-- /row -->
+	  	</div><!-- /form-group -->
+		</form><!-- /form -->
+
+		<!-- success alert -->
+		<div ng-show="success_alert" ng-click="success_alert = false" class="row">
+			<div class="bs-component">
+			  <div class="alert alert-dismissible alert-success col-lg-6">
+			    <button type="button" class="close">×</button>
+			    <h3 class="success-text"><i class="fa fa-check-circle-o"></i> Photo successfully uploaded!</h3>
+			  </div>
+			</div>
+		</div>
+
+		<!-- wrong password alert -->
+		<div ng-show="password_alert" ng-click="password_alert = false" class="row">
+			<div class="bs-component">
+			  <div class="alert alert-dismissible alert-warning col-lg-6">
+			    <button type="button" class="close">×</button>
+			    <h3 class="warning-text"><i class="fa fa-warning"></i> Password incorrect!</h3>
+			  </div>
+			</div>
+		</div>
+
+		<!-- wrong file type alert -->
+		<div ng-show="file_type_alert" ng-click="file_type_alert = false" class="row">
+			<div class="bs-component">
+			  <div class="alert alert-dismissible alert-warning col-lg-6">
+			    <button type="button" class="close">×</button>
+			    <h3 class="warning-text"><i class="fa fa-warning"></i> Invalid file type!</h3>
+			    <p>Must be a .gif, .jpg or .png</p>
+			  </div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Loops through photos and displays them and their info in rows of three -->
+	<div class="col-md-12" id="photo-displayer" data-album-id="{{ album_id }}" data-user-id="{{ user_info[0] }}" data-album-name="{{ album_name }}">
+		<span ng-repeat="gettingParentIndex in photos">
+    	<div class="row" ng-if="$index<photos.length/3+1">
+				<div class="col-md-4 photo-container" ng-if="$index>=3*$parent.$index && $index <= 3*($parent.$index+1)-1" ng-repeat="photo in photos | filter :{name:query}">
+					<div class="panel panel-primary">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">{[{ photo.name }]}</h3>
+					  </div><!-- /panel-heading -->
+					  <div class="panel-body">
+							<div class="photo-wrapper">
+							<img class="photo" ng-src="/static/uploaded_images/{[{ photo.file_name + photo.file_ext }]}" alt="">
+								<div class="photo-menu-wrapper">
+									<p class="photo-menu">
+										<a><i class="fa fa-thumbs-o-up"></i></a>
+										<a href="http://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a>
+										<a ng-click="delete_photo(photo.photo_id)"><i class="fa fa-trash"></i></a>
+									</p>
+								</div> <!-- /photo-menu-wrapper -->
+							</div> <!-- /photo-wrapper -->
+							<p class="photo-caption">{[{ photo.description }]}</p>
+					  </div><!-- /panel-body -->
+					</div><!-- /panel-primary -->
+				</div> <!-- /photo-container -->
+			</div><!-- /row -->
+		</span>
+	</div> <!-- /ng-controller -->
+</div>
+{% elif not exists %}
+	<h1>Sorry, no album by that name and user exists.</h1>
+	<h3><a href="/albums">Go back</a></h3>
+{% endif %}
+
+{% endblock body %}
